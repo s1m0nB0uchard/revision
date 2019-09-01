@@ -1,10 +1,11 @@
 package planete;
 
+import objet.Ethanol;
 import objet.Marteau;
 
 public class SoniaShampoo extends Planete {
     public SoniaShampoo(){
         nom="Sonia Shampoo";
-        bonus= new Marteau();
+        liste.add(new Ethanol());
     }
 }

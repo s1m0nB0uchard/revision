@@ -1,6 +1,8 @@
 package vaisseau;
 
+import javafx.css.CssParser;
 import objet.*;
+import personnages.Perso;
 import planete.*;
 
 import java.io.Serializable;
@@ -46,6 +48,8 @@ public class Vaisseau implements Serializable {
     public void prendreDegats(int degats) {
         ptsVie = this.ptsVie - degats;
     }
+
+    public void gagnerEssence(int essence){carburant = this.carburant + essence;}
 
     public void setPtsVie(int ptsVie) {
         this.ptsVie = ptsVie;
@@ -110,7 +114,7 @@ public class Vaisseau implements Serializable {
         }
     }
 
-    public Vaisseau explorer() {
+    public Vaisseau explorer(Perso perso) {
         ArrayList<Planete> liste = new ArrayList<>();
         liste.add(new Emma());
         liste.add(new IronMan());
@@ -118,7 +122,7 @@ public class Vaisseau implements Serializable {
         liste.add(new SoniaShampoo());
         Collections.shuffle(liste);
         parcours.add(liste.get(1).getNom());
-        return liste.get(1).explorer(this);
+        return liste.get(1).explorer(this,perso);
 
     }
 

@@ -4,7 +4,7 @@ import vaisseau.Vaisseau;
 
 import java.io.Serializable;
 
-public class Objet implements utilisation, Serializable {
+public class Objet implements Serializable {
 
     protected int bonus;
     protected String nom;
@@ -14,5 +14,7 @@ public class Objet implements utilisation, Serializable {
     }
     public void utiliser(Vaisseau vaisseau){
     }
+
+
 
 }
