@@ -1,6 +1,4 @@
 package vaisseau;
-
-import javafx.css.CssParser;
 import objet.*;
 import personnages.Perso;
 import planete.*;
@@ -92,7 +90,7 @@ public class Vaisseau implements Serializable {
 
     public boolean checkEnVie() {
         boolean mort = false;
-        if (carburant <= 0) {
+        if (ptsVie <= 0) {
             mort = true;
         }
         return mort;

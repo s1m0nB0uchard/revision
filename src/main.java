@@ -1,4 +1,5 @@
 
+import exception.Exceptions;
 import personnages.Astronaute;
 import personnages.Mecanicien;
 import personnages.Medecin;
@@ -25,7 +26,9 @@ public class main {
                 "%n" + "6- Charger une sauvegarde" + "%n" + "7- Redémarrer" + "%n");
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args)  {
+
+        Exceptions exceptions = new Exceptions();
 
 
         String nomDossier = "./Saves";
@@ -39,7 +42,7 @@ public class main {
                 Files.createDirectory(path2);
                 Files.createDirectory(path3);
             }
-        } catch (Exception ex) {
+        } catch (IOException ex) {
             System.out.println(ex.toString());
         }
 
@@ -47,7 +50,7 @@ public class main {
         boolean essence = true, enVie = true;
         Perso perso = new Perso();
         Vaisseau vaisseau = new Vaisseau();
-
+        int nb=0;
         Scanner scan = new Scanner(System.in);
 
         boolean redem = true;
@@ -55,7 +58,7 @@ public class main {
 
         while (essence && enVie) {
 
-            if (redem==true) {
+            if (redem == true) {
                 redem = false;
                 afficherMenuPerso();
                 int choice = scan.nextInt();
@@ -83,8 +86,22 @@ public class main {
                     break;
 
                 case 3:
-                    if (!vaisseau.afficherInventaire())
-                        vaisseau.reparer(scan.nextInt());
+                    try {
+                        if (!vaisseau.afficherInventaire()) {
+                            nb = scan.nextInt();
+                            if (!exceptions.tryNumber(nb)){
+                                vaisseau.reparer(nb);}
+                            }
+
+                    }
+                    catch (Exceptions.numeroInvalide ex){
+                        System.out.println(ex.toString());
+                    }
+                    catch (IndexOutOfBoundsException ex){
+                        System.out.println(ex.toString());
+                    }
+
+
                     break;
 
                 case 4:
@@ -96,7 +113,7 @@ public class main {
                     try {
                         Saves.sauvegarderVaisseau(vaisseau, nom);
                         Saves.sauvegarderPerso(perso, nom);
-                    } catch (Exception ex) {
+                    } catch (IOException ex) {
                         System.out.println(ex.toString());
                     }
 
@@ -105,14 +122,10 @@ public class main {
                 case 6:
                     if (Saves.afficherSauvegardes()) {
                     } else {
-                        try {
-                            System.out.print("Entrez le nom de la sauvegarde: ");
-                            String saveName = scan.next();
-                            vaisseau = Saves.readVaisseau(saveName);
-                            perso = Saves.readPerso(saveName);
-                        } catch (Exception ex) {
-                            System.out.println(ex.toString());
-                        }
+                        System.out.print("Entrez le nom de la sauvegarde: ");
+                        String saveName = scan.next();
+                        vaisseau = Saves.readVaisseau(saveName);
+                        perso = Saves.readPerso(saveName);
 
                     }
                     break;
@@ -134,10 +147,8 @@ public class main {
                 System.out.println("Le vaisseau a subit trop de dégat et il EXPLOSE");
             }
         }
-            System.out.println("Votre parcours: ");
-            vaisseau.afficherParcours();
-
-
+        System.out.println("Votre parcours: ");
+        vaisseau.afficherParcours();
 
 
     }
